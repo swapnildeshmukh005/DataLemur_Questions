@@ -1,0 +1,8 @@
+with transactions_done as (
+select user_id,spend,transaction_date,
+rank() OVER(PARTITION BY user_id ORDER BY transaction_date)as rnk
+from transactions)
+
+select user_id,spend,transaction_date
+from transactions_done
+where rnk = 3
