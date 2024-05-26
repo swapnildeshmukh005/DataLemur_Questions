@@ -1,0 +1,17 @@
+SELECT MAX(salary) as second_highest_salary
+FROM employees
+WHERE 
+salary NOT IN (
+SELECT MAX(salary)
+FROM employees)
+
+
+******   OR  ******
+
+with cte as (select *,
+rank() over (order by salary desc)as ranking
+from employees)
+
+select salary as second_highest_salary 
+from cte 
+where ranking = 2
